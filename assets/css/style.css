@@ -13,3 +13,13 @@
 
 
   }
+
+  img{
+    max-width: 90%;
+
+  }
+  .card-img-top{
+    margin: 50px 10px;
+    padding-bottom: 50px;
+    border: 2px solid black
+  }
