@@ -1,0 +1,15 @@
+.card-body a {
+    word-break: break-all;
+  }
+
+  .articleHeadline {
+    line-height: 1.5;
+  }
+
+  #header{
+    background-image: url("../images/newspaper_bg.jpg");
+    opacity: 0.5;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+
+
+  }
