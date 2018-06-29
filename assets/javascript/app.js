@@ -138,4 +138,20 @@
           }
 
         })
-      })
+})
+     function selectSubject(){   
+       $.ajax({
+          url: "http://www.politifact.com/api/subjects/all/json/",
+          method: "GET",
+          dataType: "jsonp"
+        }).then(function(response){
+          for (i=0; i<response.length; i++){
+            var selectOption= $("<option>")
+            selectOption.text(response[i].subject_slug)
+          console.log(response)
+          $(".subject-slug").append(selectOption)
+          }
+        })
+        }
+selectSubject()
+      
