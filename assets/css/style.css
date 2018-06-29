@@ -16,10 +16,12 @@
 
   img{
     max-width: 90%;
+    max-height: 300px;
 
   }
   .card-img-top{
-    margin: 50px 10px;
-    padding-bottom: 50px;
+    margin: 50px auto;
+    padding: 5%;
     border: 2px solid black
   }
+  
