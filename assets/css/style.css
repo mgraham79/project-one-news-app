@@ -24,4 +24,9 @@
     padding: 5%;
     border: 2px solid black
   }
+
+
+  label {
+    margin-top: 10px;
+  }
   

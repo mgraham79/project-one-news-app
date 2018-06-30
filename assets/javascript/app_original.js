@@ -28,8 +28,6 @@ firebase.initializeApp(config);
 //   buildURL()
 //   console.log(queryURL+ $.param(queryParams))
 
-//URL query function for New York Times
-
 var buildURL = function () {
   queryURL = "https://newsapi.org/v2/everything?sources=the-new-york-times&";
   var queryParams = {
@@ -44,7 +42,6 @@ var buildURL = function () {
   return queryURL + $.param(queryParams);
 }
 
-//URL query function for Bretbart News
 
 var buildURL2 = function () {
   queryURL2 = "https://newsapi.org/v2/everything?sources=breitbart-news&";
@@ -65,9 +62,6 @@ var buildURL2 = function () {
 $(document).on("click", "#run-search", function (e) {
   e.preventDefault()
 
-
-  // Request for impformation from New York Times API
-
   $.ajax({
     url: buildURL(),
     method: "GET"
@@ -75,8 +69,7 @@ $(document).on("click", "#run-search", function (e) {
 
     var results = response.articles
     console.log(results)
-    for (var i = 0; i < results.length; i++) {
-      // After response from API build card for each news article
+    for (i = 0; i < results.length; i++) {
       var resultDisplay = $("<div>")
       resultDisplay.attr("class", "card ")
       var resultImage = $("<img>")
@@ -96,40 +89,18 @@ $(document).on("click", "#run-search", function (e) {
       resultDate.text(results[i].publishedAt)
       resultLink.attr("target", "_blank")
 
-      
-      // Creating Div for subject options
-
-      var subjectDiv = $("<div>");
-
-      var subjectSelect = $("<select>");
-      subjectSelect.attr("class", "subject-slug");
-      subjectSelect.attr("id", "subject");
-
-      subjectDiv.attr("class", "form-group");
-      subjectDiv.append("<label for='end-year'>Select Most Relevent Subject</label>");
-      subjectDiv.append(subjectSelect);
-
-      // Getting the options
-      selectSubject();
-
-
-      // Append the results data to the resultsDisplay
       resultDisplay.append(resultTitle)
       resultDisplay.append(resultAuthor)
       resultDisplay.append(resultDate)
       resultDisplay.append(resultImage)
       resultDisplay.append(resultDescription)
       resultDisplay.append(resultLink)
-      resultDisplay.append(subjectDiv)
       $("#Left").append(resultDisplay)
 
 
     }
 
   })
-
-  // Request for impformation from Bretbart News API
-
   $.ajax({
     url: buildURL2(),
     method: "GET"
@@ -137,8 +108,7 @@ $(document).on("click", "#run-search", function (e) {
 
     var results = response.articles
     console.log(results)
-    for (var i = 0; i < results.length; i++) {
-      // After response from API build card for each news article
+    for (i = 0; i < results.length; i++) {
       var resultDisplay = $("<div>")
       resultDisplay.attr("class", "card ")
       var resultImage = $("<img>")
@@ -158,69 +128,46 @@ $(document).on("click", "#run-search", function (e) {
       var resultDate = $("<p>")
       resultDate.text(results[i].publishedAt)
 
-     
-      // Creating Div for subject options
-
-      var subjectDiv = $("<div>");
-
-      var subjectSelect = $("<select>");
-      subjectSelect.attr("class", "subject-slug");
-      subjectSelect.attr("id", "subject");
-
-      subjectDiv.attr("class", "form-group");
-      subjectDiv.append("<label for='end-year'>Select Most Relevent Subject</label>");
-      subjectDiv.append(subjectSelect);
-
-      // Getting the options
-      selectSubject();
-
-
-      // Append the results data to the resultsDisplay
       resultDisplay.append(resultTitle)
       resultDisplay.append(resultAuthor)
       resultDisplay.append(resultDate)
       resultDisplay.append(resultImage)
       resultDisplay.append(resultDescription)
       resultDisplay.append(resultLink)
-      resultDisplay.append(subjectDiv)
       $("#Right").append(resultDisplay)
 
 
     }
-
-    // Query of Politifact with user selected Most Relevant Subject ($("#subject").val())
-
-    var queryPolitifact = "http://www.politifact.com/api/v/2/statement/?order_by=-ruling_date&edition__edition_slug=truth-o-meter&subject__subject_slug=" + $("#subject").val() + "&limit=" + $("#article-count").val()
+    var queryPolitifact= "http://www.politifact.com/api/v/2/statement/?order_by=-ruling_date&edition__edition_slug=truth-o-meter&subject__subject_slug="+ $("#subject").val() + "&limit=" + $("#article-count").val()
     console.log(queryPolitifact)
     $.ajax({
       url: queryPolitifact,
       method: "GET",
       dataType: "jsonp"
     }).then(function (response3) {
-      // After response from API build results
       console.log(response3)
       var results = response3.objects
-      for (var i = 0; i < results.length; i++) {
-        var politifactDiv = $("<div>")
+      for(i=0; i<results.length; i++){
+        var politifactDiv= $("<div>")
         politifactDiv.attr("class", "politifacts")
-        var politifactImage = $("<img>")
+        var politifactImage= $("<img>")
         politifactImage.attr("src", results[i].ruling.ruling_graphic)
         politifactImage.css("height", "100px")
         var politifactPerson = $("<h4>")
-        politifactPerson.text(results[i].speaker.first_name + " " + results[i].speaker.last_name)
-        var politifactStatement = (results[i].statement)
-        var politifactHeadline = $("<a>")
+        politifactPerson.text(results[i].speaker.first_name + " "+results[i].speaker.last_name)
+        var politifactStatement= (results[i].statement)
+        var politifactHeadline= $("<a>")
         politifactHeadline.attr("target", "_blank")
         politifactHeadline.text(results[i].ruling_headline)
         politifactHeadline.attr("href", "http://politifact.com/" + results[i].canonical_url)
 
-        // Append the results data to the politifactDiv
+       
         politifactDiv.append(politifactPerson)
         politifactDiv.append(politifactStatement)
         politifactDiv.append(politifactImage)
         politifactDiv.append(politifactHeadline)
         $(".politifact").append(politifactDiv)
-
+         
       }
 
 
@@ -229,20 +176,18 @@ $(document).on("click", "#run-search", function (e) {
 
 
 })
-
 function selectSubject() {
   $.ajax({
     url: "http://www.politifact.com/api/subjects/all/json/",
     method: "GET",
     dataType: "jsonp"
   }).then(function (response) {
-    for (var i = 0; i < response.length; i++) {
+    for (i = 0; i < response.length; i++) {
       var selectOption = $("<option>")
       selectOption.text(response[i].subject_slug)
-      //console.log(response)
+      console.log(response)
       $(".subject-slug").append(selectOption)
     }
   })
 }
-selectSubject();
-
+selectSubject()
