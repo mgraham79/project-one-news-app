@@ -96,7 +96,7 @@ $(document).on("click", "#run-search", function (e) {
       resultDate.text(results[i].publishedAt)
       resultLink.attr("target", "_blank")
 
-      
+
       // Creating Div for subject options
 
       var subjectDiv = $("<div>");
@@ -106,12 +106,23 @@ $(document).on("click", "#run-search", function (e) {
       subjectSelect.attr("id", "subject");
 
       subjectDiv.attr("class", "form-group");
-      subjectDiv.append("<label for='end-year'>Select Most Relevent Subject</label>");
+      subjectDiv.append("<label for='end-year'>Select Most Relevant Subject</label>");
       subjectDiv.append(subjectSelect);
 
       // Getting the options
       selectSubject();
 
+      // Recommendation Checkmark
+
+      var checkLabel = $("<label>");
+      checkLabel.attr("class","check-container");
+      checkLabel.text("Would you recommend this article?");
+      var checkInput = $("<input>");
+      checkInput.attr("type", "checkbox");
+      var checkSpan = $("<span>");
+      checkSpan.attr("class", "checkmark");
+      checkLabel.append(checkInput);
+      checkLabel.append(checkSpan);
 
       // Append the results data to the resultsDisplay
       resultDisplay.append(resultTitle)
@@ -121,6 +132,7 @@ $(document).on("click", "#run-search", function (e) {
       resultDisplay.append(resultDescription)
       resultDisplay.append(resultLink)
       resultDisplay.append(subjectDiv)
+      resultDisplay.append(checkLabel)
       $("#Left").append(resultDisplay)
 
 
@@ -128,7 +140,7 @@ $(document).on("click", "#run-search", function (e) {
 
   })
 
-  // Request for impformation from Bretbart News API
+  // Request for impformation from Breitbart News API
 
   $.ajax({
     url: buildURL2(),
@@ -168,11 +180,24 @@ $(document).on("click", "#run-search", function (e) {
       subjectSelect.attr("id", "subject");
 
       subjectDiv.attr("class", "form-group");
-      subjectDiv.append("<label for='end-year'>Select Most Relevent Subject</label>");
+      subjectDiv.append("<label for='end-year'>Select Most Relevant Subject</label>");
       subjectDiv.append(subjectSelect);
 
       // Getting the options
       selectSubject();
+
+
+     // Recommendation Checkmark
+
+     var checkLabel = $("<label>");
+     checkLabel.attr("class","check-container");
+     checkLabel.text("Would you recommend this article?");
+     var checkInput = $("<input>");
+     checkInput.attr("type", "checkbox");
+     var checkSpan = $("<span>");
+     checkSpan.attr("class", "checkmark");
+     checkLabel.append(checkInput);
+     checkLabel.append(checkSpan);
 
 
       // Append the results data to the resultsDisplay
@@ -183,6 +208,7 @@ $(document).on("click", "#run-search", function (e) {
       resultDisplay.append(resultDescription)
       resultDisplay.append(resultLink)
       resultDisplay.append(subjectDiv)
+      resultDisplay.append(checkLabel)
       $("#Right").append(resultDisplay)
 
 
