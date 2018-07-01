@@ -9,6 +9,9 @@ var config = {
 };
 firebase.initializeApp(config);
 
+// A variable to reference the database.
+var database = firebase.database();
+
 // var searchTerm= $("#search-term").val().trim()
 // var articleCount= $("#article-count").val()
 // var startYear = 
@@ -121,7 +124,7 @@ $(document).on("click", "#run-search", function (e) {
       checkInput.attr("class", "checkbox");
       checkInput.attr("type", "checkbox");
       checkInput.attr("value", results[i].url);
-      checkInput.attr("id", "checkboxId_"+i);
+      checkInput.attr("id", "checkboxId_" + i);
       var checkSpan = $("<span>");
       checkSpan.attr("class", "checkmark");
       checkLabel.append(checkInput);
@@ -137,6 +140,30 @@ $(document).on("click", "#run-search", function (e) {
       resultDisplay.append(subjectDiv)
       resultDisplay.append(checkLabel)
       $("#Left").append(resultDisplay)
+
+
+      // Setting up object to upload into database
+      articleNumber = database.ref(database.length);
+      console.log("articleNumber " + articleNumber);
+
+      var articleID = "article" + articleNumber;
+      articleID = {
+        articleUrlToImage: results[i].urlToImage,
+        articleTitle: results[i].title,
+        articleDescription: results[i].description,
+        articleUrl: results[i].url,
+        articleAuthor: results[i].author,
+        articlePublishedAt: results[i].publishedAt,
+        articleSearchTerm: $("#search-term").val(),
+        articleRecommendations: 0
+      }
+
+      // Putting the articleID object into the Firebase database
+      // database.ref(articleNumber).push(articleID)
+      database.ref("articles/" + articleNumber).push(articleID);
+
+      // database.ref().push(articleID);
+
 
 
     }
@@ -199,7 +226,7 @@ $(document).on("click", "#run-search", function (e) {
       checkInput.attr("class", "checkbox");
       checkInput.attr("type", "checkbox");
       checkInput.attr("value", results[i].url);
-      checkInput.attr("id", "checkboxId_"+i);
+      checkInput.attr("id", "checkboxId_" + i);
       var checkSpan = $("<span>");
       checkSpan.attr("class", "checkmark");
       checkLabel.append(checkInput);
@@ -282,7 +309,7 @@ selectSubject();
 
 $(document).on("click", ".checkbox", function () {
 
-   var checkboxClickValue = $(this).val()
-   console.log("checkboxClickValue = "+checkboxClickValue);
+  var checkboxClickValue = $(this).val()
+  console.log("checkboxClickValue = " + checkboxClickValue);
 
 });
