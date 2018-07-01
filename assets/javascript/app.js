@@ -142,28 +142,34 @@ $(document).on("click", "#run-search", function (e) {
       $("#Left").append(resultDisplay)
 
 
-      // Setting up object to upload into database
-      articleNumber = database.ref(database.length);
-      console.log("articleNumber " + articleNumber);
+      // If the article all ready exists in the database, do not add it again.
+      
+      var refL = firebase.database().ref("/leftArticles");
+      refL.orderByChild("articleUrl").equalTo(results[i].url).once("value",snapshot => {
+        const userData = snapshot.val();
+        if (userData){
+          console.log("exists!"+userData);
+        } else {
+          console.log("Does not exist!"+userData);
 
-      var articleID = "article" + articleNumber;
-      articleID = {
-        articleUrlToImage: results[i].urlToImage,
-        articleTitle: results[i].title,
-        articleDescription: results[i].description,
-        articleUrl: results[i].url,
-        articleAuthor: results[i].author,
-        articlePublishedAt: results[i].publishedAt,
-        articleSearchTerm: $("#search-term").val(),
-        articleRecommendations: 0
-      }
+        }
+    });
+
+
 
       // Putting the articleID object into the Firebase database
-      // database.ref(articleNumber).push(articleID)
-      database.ref("articles/" + articleNumber).push(articleID);
-
-      // database.ref().push(articleID);
-
+      database.ref().push({
+        "leftArticles": {
+          articleUrlToImage: results[i].urlToImage,
+          articleTitle: results[i].title,
+          articleDescription: results[i].description,
+          articleUrl: results[i].url,
+          articleAuthor: results[i].author,
+          articlePublishedAt: results[i].publishedAt,
+          articleSearchTerm: $("#search-term").val(),
+          articleRecommendations: 0
+        }
+      });
 
 
     }
@@ -244,6 +250,20 @@ $(document).on("click", "#run-search", function (e) {
       resultDisplay.append(checkLabel)
       $("#Right").append(resultDisplay)
 
+
+      // Putting the articleID object into the Firebase database
+      // database.ref().push({
+      //   "rightArticles": {
+      //     articleUrlToImage: results[i].urlToImage,
+      //     articleTitle: results[i].title,
+      //     articleDescription: results[i].description,
+      //     articleUrl: results[i].url,
+      //     articleAuthor: results[i].author,
+      //     articlePublishedAt: results[i].publishedAt,
+      //     articleSearchTerm: $("#search-term").val(),
+      //     articleRecommendations: 0
+      //   }
+      // });
 
     }
 
