@@ -115,10 +115,13 @@ $(document).on("click", "#run-search", function (e) {
       // Recommendation Checkmark
 
       var checkLabel = $("<label>");
-      checkLabel.attr("class","check-container");
+      checkLabel.attr("class", "check-container");
       checkLabel.text("Would you recommend this article?");
       var checkInput = $("<input>");
+      checkInput.attr("class", "checkbox");
       checkInput.attr("type", "checkbox");
+      checkInput.attr("value", results[i].url);
+      checkInput.attr("id", "checkboxId_"+i);
       var checkSpan = $("<span>");
       checkSpan.attr("class", "checkmark");
       checkLabel.append(checkInput);
@@ -170,7 +173,7 @@ $(document).on("click", "#run-search", function (e) {
       var resultDate = $("<p>")
       resultDate.text(results[i].publishedAt)
 
-     
+
       // Creating Div for subject options
 
       var subjectDiv = $("<div>");
@@ -187,17 +190,20 @@ $(document).on("click", "#run-search", function (e) {
       selectSubject();
 
 
-     // Recommendation Checkmark
+      // Recommendation Checkmark
 
-     var checkLabel = $("<label>");
-     checkLabel.attr("class","check-container");
-     checkLabel.text("Would you recommend this article?");
-     var checkInput = $("<input>");
-     checkInput.attr("type", "checkbox");
-     var checkSpan = $("<span>");
-     checkSpan.attr("class", "checkmark");
-     checkLabel.append(checkInput);
-     checkLabel.append(checkSpan);
+      var checkLabel = $("<label>");
+      checkLabel.attr("class", "check-container");
+      checkLabel.text("Would you recommend this article?");
+      var checkInput = $("<input>");
+      checkInput.attr("class", "checkbox");
+      checkInput.attr("type", "checkbox");
+      checkInput.attr("value", results[i].url);
+      checkInput.attr("id", "checkboxId_"+i);
+      var checkSpan = $("<span>");
+      checkSpan.attr("class", "checkmark");
+      checkLabel.append(checkInput);
+      checkLabel.append(checkSpan);
 
 
       // Append the results data to the resultsDisplay
@@ -272,3 +278,11 @@ function selectSubject() {
 }
 selectSubject();
 
+// on Click Events
+
+$(document).on("click", ".checkbox", function () {
+
+   var checkboxClickValue = $(this).val()
+   console.log("checkboxClickValue = "+checkboxClickValue);
+
+});
