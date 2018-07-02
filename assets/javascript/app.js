@@ -9,8 +9,14 @@ var config = {
 };
 firebase.initializeApp(config);
 
+
 // A variable to reference the database.
 var database = firebase.database();
+
+//article number for firebase going to tic the number up one each time the for loop runs that appends the arcticle card
+
+var articleNumber = 0
+
 
 // var searchTerm= $("#search-term").val().trim()
 // var articleCount= $("#article-count").val()
@@ -62,7 +68,7 @@ var buildURL2 = function () {
   return queryURL2 + $.param(queryParams)
 }
 
-
+var database = firebase.database()
 
 
 $(document).on("click", "#run-search", function (e) {
@@ -121,6 +127,7 @@ $(document).on("click", "#run-search", function (e) {
       checkLabel.attr("class", "check-container");
       checkLabel.text("Would you recommend this article?");
       var checkInput = $("<input>");
+
       checkInput.attr("class", "checkbox");
       checkInput.attr("type", "checkbox");
       checkInput.attr("value", results[i].url);
@@ -142,18 +149,6 @@ $(document).on("click", "#run-search", function (e) {
       $("#Left").append(resultDisplay)
 
 
-      // If the article all ready exists in the database, do not add it again.
-      
-      var refL = firebase.database().ref("/leftArticles");
-      refL.orderByChild("articleUrl").equalTo(results[i].url).once("value",snapshot => {
-        const userData = snapshot.val();
-        if (userData){
-          console.log("exists!"+userData);
-        } else {
-          console.log("Does not exist!"+userData);
-
-        }
-    });
 
 
 
@@ -171,9 +166,10 @@ $(document).on("click", "#run-search", function (e) {
         }
       });
 
+     
+      
 
     }
-
   })
 
   // Request for impformation from Breitbart News API
@@ -251,6 +247,8 @@ $(document).on("click", "#run-search", function (e) {
       $("#Right").append(resultDisplay)
 
 
+//Commented out until we get the first one working
+      
       // Putting the articleID object into the Firebase database
       // database.ref().push({
       //   "rightArticles": {
@@ -301,9 +299,10 @@ $(document).on("click", "#run-search", function (e) {
         $(".politifact").append(politifactDiv)
 
       }
+      
+    }
 
 
-    })
   })
 
 
@@ -325,6 +324,7 @@ function selectSubject() {
 }
 selectSubject();
 
+
 // on Click Events
 
 $(document).on("click", ".checkbox", function () {
@@ -333,3 +333,81 @@ $(document).on("click", ".checkbox", function () {
   console.log("checkboxClickValue = " + checkboxClickValue);
 
 });
+// Query of Politifact with user selected Most Relevant Subject ($("#subject").val())
+$(document).on("change", "#subject", function () {
+  console.log($(this).val())
+  console.log($("#subject").val())
+  var queryPolitifact = "http://www.politifact.com/api/v/2/statement/?order_by=-ruling_date&edition__edition_slug=truth-o-meter&subject__subject_slug=" + $(this).val() + "&limit=" + $("#article-count").val()
+  console.log(queryPolitifact)
+  $.ajax({
+    url: queryPolitifact,
+    method: "GET",
+    dataType: "jsonp"
+  }).then(function (response3) {
+    // After response from API build results
+    $(".politifact").empty()
+    console.log(response3)
+    var results = response3.objects
+    for (var i = 0; i < results.length; i++) {
+      var politifactDiv = $("<div>")
+      politifactDiv.attr("class", "politifacts")
+      var politifactImage = $("<img>")
+      politifactImage.attr("src", results[i].ruling.ruling_graphic)
+      politifactImage.css("height", "100px")
+      var politifactPerson = $("<h4>")
+      politifactPerson.text(results[i].speaker.first_name + " " + results[i].speaker.last_name)
+      var politifactStatement = (results[i].statement)
+      var politifactHeadline = $("<a>")
+      politifactHeadline.attr("target", "_blank")
+      politifactHeadline.text(results[i].ruling_headline)
+      politifactHeadline.attr("href", "http://politifact.com/" + results[i].canonical_url)
+      var relevantButton = $("<button>")
+      relevantButton.text("Click If This Statement Is Relevant To Article")
+
+      // Append the results data to the politifactDiv
+      politifactDiv.append(politifactPerson)
+      politifactDiv.append(politifactStatement)
+      politifactDiv.append(politifactImage)
+      politifactDiv.append(politifactHeadline)
+      politifactDiv.append(relevantButton)
+      $(".politifact").append(politifactDiv)
+      
+
+
+    }
+
+  })
+
+  $(document).on("click", "#clear-all", function () {
+    $(".politifact").empty()
+    $("#Left").empty()
+    $("#Right").empty()
+  })
+
+  
+})
+
+
+function fireArticles() {
+
+  return database.ref('articles/' + articleNumber).once('value').then(function(snapshot){
+console.log(snapshot.val())
+  
+
+console.log(snapshot.val())
+  if (snapshot.val() == undefined) {
+    
+    database.ref('articles/'+articleNumber).set({
+      factChecker: articleNumber
+    })
+    articleNumber++
+    console.log(articleNumber)
+  } else {
+    articleNumber++
+    console.log(articleNumber)
+    fireArticles()
+  }
+  })
+
+}
+
