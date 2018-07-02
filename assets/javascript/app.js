@@ -12,24 +12,6 @@ firebase.initializeApp(config);
 // A variable to reference the database.
 var database = firebase.database();
 
-// var searchTerm= $("#search-term").val().trim()
-// var articleCount= $("#article-count").val()
-// var startYear = 
-// var queryURL = "https://newsapi.org/v2/everything?sources=the-new-york-times&q="+ searchTerm+"&pageSize="+ articleCount+ "&from="+  +"apiKey=5573b7a235654d248bf3d502bd3417e6"
-
-// var buildURL = function () {
-//   queryURL = "https://newsapi.org/v2/everything?sources=the-new-york-times";
-//   var queryParams = {
-//       searchTerm: "q=" + $("#search-term").val().trim(),
-//       articleCount: "pageSize=" + $("#article-count").val(),
-//       startYear: "from=" + $("#start-year").val().trim(),
-//       endYear: "to=" + $("#end-year").val().trim(),
-//       api_key: "5573b7a235654d248bf3d502bd3417e6"
-//   }
-//   queryParams.q = $("#form-input").val().trim();
-//   return queryURL + $.param(queryParams);}
-//   buildURL()
-//   console.log(queryURL+ $.param(queryParams))
 
 //URL query function for New York Times
 
@@ -142,18 +124,23 @@ $(document).on("click", "#run-search", function (e) {
       $("#Left").append(resultDisplay)
 
 
-      // If the article all ready exists in the database, do not add it again.
-      
-      var refL = firebase.database().ref("/leftArticles");
-      refL.orderByChild("articleUrl").equalTo(results[i].url).once("value",snapshot => {
-        const userData = snapshot.val();
-        if (userData){
-          console.log("exists!"+userData);
-        } else {
-          console.log("Does not exist!"+userData);
+      // Remove special characters
+      var urlWithSpecialChar = results[i].url;
+      var urlNoSpecialChar = urlWithSpecialChar.replace(/[^\w\s]/gi, '')
+      console.log("urlNoSpecialChar " + urlNoSpecialChar);
 
-        }
-    });
+      // If the article all ready exists in the database, do not add it again.
+
+      //   var refL = firebase.database().ref("/leftArticles");
+      //   refL.orderByChild("articleUrl").equalTo(results[i].url).once("value",snapshot => {
+      //     const userData = snapshot.val();
+      //     if (userData){
+      //       console.log("exists!"+userData);
+      //     } else {
+      //       console.log("Does not exist!"+userData);
+
+      //     }
+      // });
 
 
 
