@@ -1,23 +1,30 @@
 $(document).on("click", "#run-search", function (e) {
     e.preventDefault()
     searchTerm = $("#search-term").val()
-var urlWithSpecialChar;
-var urlNoSpecialChar;
+    var urlWithSpecialChar;
+    var urlNoSpecialChar;
+
     // Request for impformation from New York Times API
-function checkArticles(newArticle){
-    database.ref('leftArticles/' + urlNoSpecialChar).once('value').then(function(snapshot) {
-        console.log(snapshot.val())
-        console.log(snapshot.key)
-        if (!snapshot.val()) {
-            console.log('here')
-            database.ref("leftArticles/" + urlNoSpecialChar).set(newArticle)
-        } else {
+    function checkArticles(newArticle) {
+        //for(j=0; j<articleKey.length; j++){
+        database.ref('leftArticles/'+urlNoSpecialChar).equalTo(urlWithSpecialChar).once('value').then( function (snapshot) {
+            console.log(snapshot.val())
+            console.log(snapshot.key)
+            database.ref('keys/').push(snapshot.key)
 
-            console.log(searchTerm)
+            if (!snapshot.val()) {
+                console.log('here')
+                database.ref("leftArticles/"+ urlNoSpecialChar).push(newArticle)
+            } else {
 
-        }
-    })
-}
+                console.log(searchTerm)
+
+            }
+
+
+        })
+    }
+    //}
     $.ajax({
         url: buildURL(),
         method: "GET"
@@ -143,7 +150,7 @@ function checkArticles(newArticle){
 
             checkArticles(newArticle);
 
-             
+
         }
         ;
 
