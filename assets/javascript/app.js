@@ -58,14 +58,40 @@ function fireArticles() {
 
   return database.ref('Terms/' + searchTerm).once('value').then(function(snapshot){
 console.log(snapshot.val())
-  
-
-console.log(snapshot.val())
+console.log(snapshot.key)
 console.log(searchTerm)
-  if (snapshot.val() == undefined) {
+console.log(politifactSibs[3])
+politifactLink=politifactSibs[3]
+if (snapshot.val() == undefined) {
+
+    // use an update instead of a set
+
+    /*
+    $("#submit-update-form").on("click", function (e) {
+
+      // prevent the form from submitting on default
+      e.preventDefault();
+
+      // using postData object to store the name and the movie
+      var postData = {
+        name: $("#name-modal").val().trim(),
+        favMovie: $("#fav-movie-modal").val().trim()
+      };
+
+      //hide our modal 
+      $('#myModal').modal('hide');
+
+      // Update the child by its id ex: /collectionName/id
+      var updates = {};
+      updates['/movies/' + updateId] = postData;
+
+      return database.ref().update(updates);  
+
+    });
+*/
     
-    database.ref('Terms/'+searchTerm).set({
-      politifactDiv: politifactSibs
+    database.ref('Terms/'+snapshot.key).set({
+      politifacts: politifactLink
     })
     
     console.log(searchTerm)
@@ -79,40 +105,3 @@ console.log(searchTerm)
 
   
 }
-function fireArticles2() {
-
-  return database.ref('leftArticles' + urlNoSpecialChar).once('value').then(function(snapshot){
-console.log(snapshot.val())
-  
-var urlWithSpecialChar = results[i].url;
-var urlNoSpecialChar = urlWithSpecialChar.replace(/[^\w\s]/gi, '')
-console.log("urlNoSpecialChar " + urlNoSpecialChar);
-
-console.log(snapshot.val())
-console.log(searchTerm)
-  if (snapshot.val() == undefined) {
-    
-    
-      database.ref("leftArticles/"+ urlNoSpecialChar).set({
-
-        articleUrlToImage: results[i].urlToImage,
-        articleTitle: results[i].title,
-        articleDescription: results[i].description,
-        articleUrl: results[i].url,
-        articleAuthor: results[i].author,
-        articlePublishedAt: results[i].publishedAt,
-        articleSearchTerm: $("#search-term").val(),
-        articleRecommendations: 0
-
-    })
-    
-    
-    console.log(searchTerm)
-  } else {
-    
-    console.log(searchTerm)
-
-  }
-  })
-}
-
