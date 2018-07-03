@@ -17,6 +17,10 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
   <script src="assets/javascript/app.js"></script>
+  <script src="assets/javascript/buildURLs.js"></script>
+  <script src="assets/javascript/onSearch.js"></script>
+  <script src="assets/javascript/politifactFunction.js"></script>
+  <script src="assets/javascript/Relevant.js"></script>
 </head>
 
 <body>
@@ -74,12 +78,6 @@
               <div class="form-group">
                 <label for="end-year">End Year (Optional):</label>
                 <input type="text" class="form-control" id="end-year">
-              </div>
-
-              <div class="form-group">
-                <label for="end-year">Select Most Relevant Subject</label>
-                <select class="subject-slug" id="subject">
-                  </select>
               </div>
 
               <!-- Here we have our final submit button -->
@@ -144,10 +142,13 @@
         </div>
       </div>
   </div>
-  <div class="container">
+  <div class="container margin-bottom">
   <div class="row">
     <div class="col-md-12">
-      <h5 class="politifact">Politifact</h5>
+      <h5>Politifact</h5>
+        <div class="politifact">
+
+        </div>
 
 
     </div>

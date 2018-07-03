@@ -25,10 +25,10 @@
     border: 2px solid black
   }
 
-
   label {
     margin-top: 10px;
   }
+
 
 
   /* Custom checkmark */
@@ -101,3 +101,8 @@
   transform: rotate(45deg);
 }
   
+
+  .margin-bottom{
+    margin-bottom: 60px;
+  }
+
