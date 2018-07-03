@@ -1,3 +1,21 @@
+function recommendSetter(counter, urlNoSpecialChar){
+    var RecommendCountRef = firebase.database().ref('leftArticles/' + urlNoSpecialChar + '/articleRecommendations');
+    // RecommendCountRef.once("value").then(function (snapshot) {
+    //     counter.text(snapshot.val())
+    // })
+    RecommendCountRef.on('value', function(snapshot){
+        // counter.html("<span>" + snapshot.val() + "</span>")
+        console.log("Counter text", snapshot.val());
+        var myCounterValue = snapshot.val();
+
+
+        counter.text(myCounterValue);
+    })
+}
+
+
+
+
 $(document).on("click", "#run-search", function (e) {
     e.preventDefault()
     searchTerm = $("#search-term").val()
@@ -93,15 +111,21 @@ $(document).on("click", "#run-search", function (e) {
             checkLabel.attr("class", "check-container");
             checkLabel.text("Would you recommend this article?");
             var checkInput = $("<input>");
-
-            checkInput.attr("class", "checkbox");
+            checkInput.addClass("checkbox left-side");
             checkInput.attr("type", "checkbox");
             checkInput.attr("value", urlNoSpecialChar);
-            checkInput.attr("id", "checkboxId_" + i);
+            checkInput.attr("id", "checkboxId_L_" + i);
             var checkSpan = $("<span>");
             checkSpan.attr("class", "checkmark");
             checkLabel.append(checkInput);
             checkLabel.append(checkSpan);
+            var recTotalLabel = $("<label>&#9786 Recommendation Total: <span class=recommend-count-" + i + "></span></label>");
+            // Recommendation symbol and total
+            var recommendCounter = $(".recommend-count-" + i);
+            
+            
+            recommendSetter(recommendCounter, urlNoSpecialChar)
+
 
             // Append the results data to the resultsDisplay
             resultDisplay.append(resultTitle)
@@ -112,6 +136,7 @@ $(document).on("click", "#run-search", function (e) {
             resultDisplay.append(resultLink)
             resultDisplay.append(subjectDiv)
             resultDisplay.append(checkLabel)
+            resultDisplay.append(recTotalLabel)
             $("#Left").append(resultDisplay)
 
 
@@ -193,10 +218,10 @@ $(document).on("click", "#run-search", function (e) {
             checkLabel.attr("class", "check-container");
             checkLabel.text("Would you recommend this article?");
             var checkInput = $("<input>");
-            checkInput.attr("class", "checkbox");
+            checkInput.addClass("checkbox right-side");
             checkInput.attr("type", "checkbox");
             checkInput.attr("value", urlNoSpecialChar);
-            checkInput.attr("id", "checkboxId_" + i);
+            checkInput.attr("id", "checkboxId_R_" + i);
             var checkSpan = $("<span>");
             checkSpan.attr("class", "checkmark");
             checkLabel.append(checkInput);

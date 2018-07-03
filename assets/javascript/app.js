@@ -39,70 +39,101 @@ selectSubject();
 
 $(document).on("click", ".checkbox", function () {
 
-  var checkboxClickValue = $(this).val()
+  var checkboxClickValue = $(this).val();
+  var checkboxClickClass = $(this).attr('class');
+  var checkboxClickID = $(this).attr('id');
+  console.log("$(this).class(): " + checkboxClickClass);
   console.log("checkboxClickValue = " + checkboxClickValue);
+  console.log("checkboxClickID = " + checkboxClickID);
 
-  var RecommendCountRef = firebase.database().ref('leftArticles/' + checkboxClickValue + '/articleRecommendations');
-  
-  RecommendCountRef.once("value").then(function(snapshot){
-    var recommentCount = snapshot.val();
-    recommentCount ++;
-    RecommendCountRef.set(recommentCount);
-  })
-  
+  if (checkboxClickClass == 'checkbox left-side') {
+    var RecommendCountRef = firebase.database().ref('leftArticles/' + checkboxClickValue + '/articleRecommendations');
+
+    RecommendCountRef.once("value").then(function (snapshot) {
+      var recommentCount = snapshot.val();
+      // check if the checkbox is already checked
+      isChecked = document.getElementById(checkboxClickID).checked;
+      if (isChecked) {
+        recommentCount++;
+        RecommendCountRef.set(recommentCount);
+      } else {
+        recommentCount--;
+        RecommendCountRef.set(recommentCount);
+      }
+
+    })
+  } else {
+    var RecommendCountRef = firebase.database().ref('rightArticles/' + checkboxClickValue + '/articleRecommendations');
+
+    RecommendCountRef.once("value").then(function (snapshot) {
+      var recommentCount = snapshot.val();
+      // check if the checkbox is already checked
+      isChecked = document.getElementById(checkboxClickID).checked;
+      if (isChecked) {
+        recommentCount++;
+        RecommendCountRef.set(recommentCount);
+      } else {
+        recommentCount--;
+        RecommendCountRef.set(recommentCount);
+      }
+    })
+  }
+
+
+
 
 });
 
-  $(document).on("click", "#clear-all", function () {
-    $(".politifact").empty()
-    $("#Left").empty()
-    $("#Right").empty()
-  })
+$(document).on("click", "#clear-all", function () {
+  $(".politifact").empty()
+  $("#Left").empty()
+  $("#Right").empty()
+})
 
-  
+
 
 
 //This should work with the new article info Kevin did over the weekend if we swap out variables
 function fireArticles() {
 
-  return database.ref('Terms/' + searchTerm).once('value').then(function(snapshot){
-console.log(snapshot.val())
-  
+  return database.ref('Terms/' + searchTerm).once('value').then(function (snapshot) {
+    console.log(snapshot.val())
 
-console.log(snapshot.val())
-console.log(searchTerm)
-  if (snapshot.val() == undefined) {
-    
-    database.ref('Terms/'+searchTerm).set({
-      politifactDiv: politifactSibs
-    })
-    
-    console.log(searchTerm)
-  } else {
-    
-    console.log(searchTerm)
 
-  }
+    console.log(snapshot.val())
+    console.log(searchTerm)
+    if (snapshot.val() == undefined) {
+
+      database.ref('Terms/' + searchTerm).set({
+        politifactDiv: politifactSibs
+      })
+
+      console.log(searchTerm)
+    } else {
+
+      console.log(searchTerm)
+
+    }
   })
 
 
-  
+
 }
 function fireArticles2() {
 
-  return database.ref('leftArticles' + urlNoSpecialChar).once('value').then(function(snapshot){
-console.log(snapshot.val())
-  
-var urlWithSpecialChar = results[i].url;
-var urlNoSpecialChar = urlWithSpecialChar.replace(/[^\w\s]/gi, '')
-console.log("urlNoSpecialChar " + urlNoSpecialChar);
+  return database.ref('leftArticles' + urlNoSpecialChar).once('value').then(function (snapshot) {
+    console.log(snapshot.val())
 
-console.log(snapshot.val())
-console.log(searchTerm)
-  if (snapshot.val() == undefined) {
-    
-    
-      database.ref("leftArticles/"+ urlNoSpecialChar).set({
+    var urlWithSpecialChar = results[i].url;
+    var urlNoSpecialChar = urlWithSpecialChar.replace(/[^\w\s]/gi, '')
+    console.log("urlNoSpecialChar " + urlNoSpecialChar);
+
+    console.log(snapshot.val())
+    console.log(searchTerm)
+    if (snapshot.val() == undefined) {
+
+
+      database.ref("leftArticles/" + urlNoSpecialChar).set({
 
         articleUrlToImage: results[i].urlToImage,
         articleTitle: results[i].title,
@@ -113,15 +144,15 @@ console.log(searchTerm)
         articleSearchTerm: $("#search-term").val(),
         articleRecommendations: 0
 
-    })
-    
-    
-    console.log(searchTerm)
-  } else {
-    
-    console.log(searchTerm)
+      })
 
-  }
+
+      console.log(searchTerm)
+    } else {
+
+      console.log(searchTerm)
+
+    }
   })
 }
 
