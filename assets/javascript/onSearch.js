@@ -18,7 +18,7 @@ $(document).on("click", "#run-search", function (e) {
             }
         })
     }
-    
+
     // Request for information from Breitbart News API
     function checkArticles2(newArticle) {
         database.ref('rightArticles/' + urlNoSpecialChar).once('value').then(function (snapshot) {
@@ -81,6 +81,12 @@ $(document).on("click", "#run-search", function (e) {
             // Getting the options
             selectSubject();
 
+            // Remove special characters
+            urlWithSpecialChar = results[i].url;
+            urlNoSpecialChar = urlWithSpecialChar.replace(/[^\w\s]/gi, '')
+            // console.log("urlNoSpecialChar " + urlNoSpecialChar);
+
+
             // Recommendation Checkmark
 
             var checkLabel = $("<label>");
@@ -90,7 +96,7 @@ $(document).on("click", "#run-search", function (e) {
 
             checkInput.attr("class", "checkbox");
             checkInput.attr("type", "checkbox");
-            checkInput.attr("value", results[i].url);
+            checkInput.attr("value", urlNoSpecialChar);
             checkInput.attr("id", "checkboxId_" + i);
             var checkSpan = $("<span>");
             checkSpan.attr("class", "checkmark");
@@ -108,10 +114,6 @@ $(document).on("click", "#run-search", function (e) {
             resultDisplay.append(checkLabel)
             $("#Left").append(resultDisplay)
 
-            // Remove special characters
-            urlWithSpecialChar = results[i].url;
-            urlNoSpecialChar = urlWithSpecialChar.replace(/[^\w\s]/gi, '')
-            // console.log("urlNoSpecialChar " + urlNoSpecialChar);
 
 
             var newArticle = {
@@ -179,6 +181,11 @@ $(document).on("click", "#run-search", function (e) {
             // Getting the options
             selectSubject();
 
+            // Remove special characters
+            urlWithSpecialChar = results[i].url;
+            urlNoSpecialChar = urlWithSpecialChar.replace(/[^\w\s]/gi, '')
+            // console.log("urlNoSpecialChar " + urlNoSpecialChar);
+
 
             // Recommendation Checkmark
 
@@ -188,7 +195,7 @@ $(document).on("click", "#run-search", function (e) {
             var checkInput = $("<input>");
             checkInput.attr("class", "checkbox");
             checkInput.attr("type", "checkbox");
-            checkInput.attr("value", results[i].url);
+            checkInput.attr("value", urlNoSpecialChar);
             checkInput.attr("id", "checkboxId_" + i);
             var checkSpan = $("<span>");
             checkSpan.attr("class", "checkmark");
@@ -206,11 +213,6 @@ $(document).on("click", "#run-search", function (e) {
             resultDisplay.append(subjectDiv)
             resultDisplay.append(checkLabel)
             $("#Right").append(resultDisplay)
-
-            // Remove special characters
-            urlWithSpecialChar = results[i].url;
-            urlNoSpecialChar = urlWithSpecialChar.replace(/[^\w\s]/gi, '')
-            // console.log("urlNoSpecialChar " + urlNoSpecialChar);
 
 
             var newArticle = {

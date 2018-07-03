@@ -42,6 +42,15 @@ $(document).on("click", ".checkbox", function () {
   var checkboxClickValue = $(this).val()
   console.log("checkboxClickValue = " + checkboxClickValue);
 
+  var RecommendCountRef = firebase.database().ref('leftArticles/' + checkboxClickValue + '/articleRecommendations');
+  
+  RecommendCountRef.once("value").then(function(snapshot){
+    var recommentCount = snapshot.val();
+    recommentCount ++;
+    RecommendCountRef.set(recommentCount);
+  })
+  
+
 });
 
   $(document).on("click", "#clear-all", function () {
