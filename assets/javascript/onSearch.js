@@ -1,23 +1,42 @@
 $(document).on("click", "#run-search", function (e) {
     e.preventDefault()
     searchTerm = $("#search-term").val()
-var urlWithSpecialChar;
-var urlNoSpecialChar;
-    // Request for impformation from New York Times API
-function checkArticles(newArticle){
-    database.ref('leftArticles/' + urlNoSpecialChar).once('value').then(function(snapshot) {
-        console.log(snapshot.val())
-        console.log(snapshot.key)
-        if (!snapshot.val()) {
-            console.log('here')
-            database.ref("leftArticles/" + urlNoSpecialChar).set(newArticle)
-        } else {
+    var urlWithSpecialChar;
+    var urlNoSpecialChar;
+    // Request for information from New York Times API
+    function checkArticles(newArticle) {
+        database.ref('leftArticles/' + urlNoSpecialChar).once('value').then(function (snapshot) {
+            console.log("snapshot.val(): " + snapshot.val())
+            console.log("snapshot.key: " + snapshot.key)
+            if (!snapshot.val()) {
+                console.log('here');
+                database.ref("leftArticles/" + snapshot.key).set(newArticle)
+            } else {
 
-            console.log(searchTerm)
+                console.log(searchTerm)
 
-        }
-    })
-}
+            }
+        })
+    }
+    
+    // Request for information from Breitbart News API
+    function checkArticles2(newArticle) {
+        database.ref('rightArticles/' + urlNoSpecialChar).once('value').then(function (snapshot) {
+            console.log("snapshot.val(): " + snapshot.val())
+            console.log("snapshot.key: " + snapshot.key)
+            if (!snapshot.val()) {
+                console.log('here');
+                database.ref("rightArticles/" + snapshot.key).set(newArticle)
+            } else {
+
+                console.log(searchTerm)
+
+            }
+        })
+    }
+
+
+
     $.ajax({
         url: buildURL(),
         method: "GET"
@@ -95,37 +114,6 @@ function checkArticles(newArticle){
             // console.log("urlNoSpecialChar " + urlNoSpecialChar);
 
 
-            var articleInFirebase;
-
-            // console.log(results[i])
-            //            var intoLeftArticles=  database.ref('/leftArticles')
-            //             intoLeftArticles.on('value',function (snapshot){
-            //                 snapshot.forEach(function(childSnapshot){
-            //                     var childData= childSnapshot.val()
-            //                 console.log(childData)
-            //                 console.log(childSnapshot)
-            //                 for(var j=0; j<childData.length; j++){
-            //                     childData.ref('articleURL').once('value', function(snapshot3){
-            //                         console.log(snapshot3.val())
-            //                     })
-            //                     articleInFirebase= childData.articleUrl.indexOf(results[i].url)
-            //                     console.log(articleInFirebase)
-            //                 }
-            //                 })
-            //                 })
-
-            //                 // .equalTo(results[i].url).once("value", snapshot => {
-
-            //                 // articleInFirebase = snapshot.val()
-
-
-            // console.log(results[i])
-            //                 // Putting the articleID object into the Firebase database
-            //                 if (articleInFirebase != undefined) {
-            //                     console.log("it exist" + articleInFirebase)
-            //                 }
-            //                 else {
-            //                     console.log(results[i])
             var newArticle = {
 
                 articleUrlToImage: results[i].urlToImage,
@@ -136,25 +124,16 @@ function checkArticles(newArticle){
                 articlePublishedAt: results[i].publishedAt,
                 articleSearchTerm: $("#search-term").val(),
                 articleRecommendations: 0
-
             }
 
-            console.log(newArticle);
-
             checkArticles(newArticle);
-
-             
         }
-        ;
-
-
-
 
     })
 
 
 
-    // Request for impformation from Breitbart News API
+    // Request for information from Breitbart News API
 
     $.ajax({
         url: buildURL2(),
@@ -228,24 +207,29 @@ function checkArticles(newArticle){
             resultDisplay.append(checkLabel)
             $("#Right").append(resultDisplay)
 
+            // Remove special characters
+            urlWithSpecialChar = results[i].url;
+            urlNoSpecialChar = urlWithSpecialChar.replace(/[^\w\s]/gi, '')
+            // console.log("urlNoSpecialChar " + urlNoSpecialChar);
 
-            //Commented out until we get the first one working
 
-            // Putting the articleID object into the Firebase database
-            // database.ref().push({
-            //   "rightArticles": {
-            //     articleUrlToImage: results[i].urlToImage,
-            //     articleTitle: results[i].title,
-            //     articleDescription: results[i].description,
-            //     articleUrl: results[i].url,
-            //     articleAuthor: results[i].author,
-            //     articlePublishedAt: results[i].publishedAt,
-            //     articleSearchTerm: $("#search-term").val(),
-            //     articleRecommendations: 0
-            //   }
-            // });
+            var newArticle = {
+
+                articleUrlToImage: results[i].urlToImage,
+                articleTitle: results[i].title,
+                articleDescription: results[i].description,
+                articleUrl: results[i].url,
+                articleAuthor: results[i].author,
+                articlePublishedAt: results[i].publishedAt,
+                articleSearchTerm: $("#search-term").val(),
+                articleRecommendations: 0
+            }
+
+            checkArticles2(newArticle);
 
         }
+
+
 
         // Query of Politifact with user selected Most Relevant Subject ($("#subject").val())
 
