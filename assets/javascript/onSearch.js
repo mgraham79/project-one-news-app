@@ -3,6 +3,7 @@ $(document).on("click", "#run-search", function (e) {
     searchTerm = $("#search-term").val()
     var urlWithSpecialChar;
     var urlNoSpecialChar;
+
     // Request for information from New York Times API
     function checkArticles(newArticle) {
         database.ref('leftArticles/' + urlNoSpecialChar).once('value').then(function (snapshot) {
@@ -18,7 +19,27 @@ $(document).on("click", "#run-search", function (e) {
             }
         })
     }
-    
+
+    //Putting the search term in firebase & checking if its already there
+    function checkSearchTerm(newTerm) {
+        database.ref('Terms/' + searchTerm).once('value').then(function (snapshot) {
+            console.log("snapshot.val(): " + snapshot.val())
+            console.log("snapshot.key: " + snapshot.key)
+            if (!snapshot.val()) {
+                console.log('here');
+                database.ref("Terms/" + snapshot.key).set({
+                    politifact: 0
+                })
+            } else {
+
+                console.log(searchTerm)
+
+            }
+        })
+    }
+
+    checkSearchTerm()
+
     // Request for information from Breitbart News API
     function checkArticles2(newArticle) {
         database.ref('rightArticles/' + urlNoSpecialChar).once('value').then(function (snapshot) {
@@ -269,6 +290,27 @@ $(document).on("click", "#run-search", function (e) {
         })
 
 
+        database.ref('Terms/' + searchTerm).once('value').then(function (snapshot99) {
+            console.log(snapshot99.val())
+            var mostRecent = snapshot99.val()
+            console.log(mostRecent)
+            $('.recentPolitifact').show()
+                $('.recentPolitifact').append('<h5>' + mostRecent.politifactSpeaker + '<h5>')
+                $('.recentPolitifact').append('<p>' + mostRecent.politifactExplanation + '<p>')
+                var polImage = $('<img>')
+                polImage.attr('src', mostRecent.politifactImage)
+                polImage.css('height', '100px')
+                $('.recentPolitifact').append(polImage)
+                $('.recentPolitifact').append('<p>' + mostRecent.politifactText + '<p>')
+            
+                if (mostRecent.politifactSpeaker == undefined){
+                    $('.recentPolitifact').hide()
+                }
+
+
+        })
     })
+
+
 
 })
