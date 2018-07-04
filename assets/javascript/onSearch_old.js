@@ -1,7 +1,5 @@
-
-
-function recommendSetterL(myUrlNoSpecialChar) {
-    var RecommendCountRef = firebase.database().ref('leftArticles/' + myUrlNoSpecialChar + '/articleRecommendations');
+function recommendSetter(counter, urlNoSpecialChar) {
+    var RecommendCountRef = firebase.database().ref('leftArticles/' + urlNoSpecialChar + '/articleRecommendations');
     // RecommendCountRef.once("value").then(function (snapshot) {
     //     counter.text(snapshot.val())
     // })
@@ -9,28 +7,14 @@ function recommendSetterL(myUrlNoSpecialChar) {
         // counter.html("<span>" + snapshot.val() + "</span>")
         console.log("Counter text", snapshot.val());
         var myCounterValue = snapshot.val();
-        console.log("myCounterValue", myCounterValue);
-        return myCounterValue;
 
-        //    counter.text(myCounterValue);
+
+        counter.text(myCounterValue);
     })
 }
 
-function recommendSetterR(myUrlNoSpecialChar) {
-    var RecommendCountRef = firebase.database().ref('rightArticles/' + myUrlNoSpecialChar + '/articleRecommendations');
-    // RecommendCountRef.once("value").then(function (snapshot) {
-    //     counter.text(snapshot.val())
-    // })
-    RecommendCountRef.on('value', function (snapshot) {
-        // counter.html("<span>" + snapshot.val() + "</span>")
-        console.log("Counter text", snapshot.val());
-        var myCounterValue = snapshot.val();
-        console.log("myCounterValue", myCounterValue);
-        return myCounterValue;
 
-        //    counter.text(myCounterValue);
-    })
-}
+
 
 $(document).on("click", "#run-search", function (e) {
     e.preventDefault()
@@ -136,20 +120,13 @@ $(document).on("click", "#run-search", function (e) {
             checkLabel.append(checkInput);
             checkLabel.append(checkSpan);
 
-            // Calling the function recommendSetter
-            var recommendCounter = recommendSetterL(urlNoSpecialChar);
-            console.log("recommendCounter: " + recommendCounter);
-            console.log("urlNoSpecialChar:" + urlNoSpecialChar);
+            recommendSetter(recommendCounter, urlNoSpecialChar)
+            var recTotalLabel = $("<label>&#9786 Recommendation Total: " + recommendCounter + "<span class=recommend-count-" + i + " ></span ></label > ");
+            // Recommendation symbol and total
+            var recommendCounter = $(".recommend-count-" + i);
 
 
-            // Creating the Recommendation Label with symbol and total
-            var recTotalLabel = $("<label>");
-            recTotalLabel.attr("class", "recommend-container");
-            recTotalLabel.text("Recommendation Total: " + recommendCounter);
-            var recTotalSpan = $("<span>");
-            recTotalSpan.attr("id", "smileSymbol-left");
-            recTotalSpan.html("&#9786");
-            recTotalLabel.prepend(recTotalSpan);
+            //recommendSetter(recommendCounter, urlNoSpecialChar)
 
 
             // Append the results data to the resultsDisplay
@@ -252,21 +229,6 @@ $(document).on("click", "#run-search", function (e) {
             checkLabel.append(checkInput);
             checkLabel.append(checkSpan);
 
-            // Calling the function recommendSetter
-            var recommendCounter = recommendSetterR(urlNoSpecialChar);
-            console.log("recommendCounter: " + recommendCounter);
-            console.log("urlNoSpecialChar:" + urlNoSpecialChar);
-
-
-            // Creating the Recommendation Label with symbol and total
-            var recTotalLabel = $("<label>");
-            recTotalLabel.attr("class", "recommend-container");
-            recTotalLabel.text("Recommendation Total: " + recommendCounter);
-            var recTotalSpan = $("<span>");
-            recTotalSpan.attr("id", "smileSymbol-right");
-            recTotalSpan.html("&#9786");
-            recTotalLabel.prepend(recTotalSpan);
-
 
             // Append the results data to the resultsDisplay
             resultDisplay.append(resultTitle)
@@ -277,7 +239,6 @@ $(document).on("click", "#run-search", function (e) {
             resultDisplay.append(resultLink)
             resultDisplay.append(subjectDiv)
             resultDisplay.append(checkLabel)
-            resultDisplay.append(recTotalLabel)
             $("#Right").append(resultDisplay)
 
 
