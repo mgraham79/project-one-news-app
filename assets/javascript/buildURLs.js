@@ -8,7 +8,7 @@ var buildURL = function () {
       apikey: "5573b7a235654d248bf3d502bd3417e6"
   
     }
-    console.log(queryURL + $.param(queryParams))
+    // console.log(queryURL + $.param(queryParams))
     return queryURL + $.param(queryParams);
   }
   
@@ -24,6 +24,6 @@ var buildURL = function () {
       to: $("#end-year").val(),
       apikey: "5573b7a235654d248bf3d502bd3417e6"
     }
-    console.log(queryURL2 + $.param(queryParams))
+    // console.log(queryURL2 + $.param(queryParams))
     return queryURL2 + $.param(queryParams)
   }

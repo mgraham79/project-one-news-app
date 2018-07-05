@@ -1,6 +1,27 @@
+var counterGlobal;
+function recommendSetterL(myUrlNoSpecialChar, counter) {
+    var RecommendCountSetRef = firebase.database().ref('leftArticles/' + myUrlNoSpecialChar + '/articleRecommendations');
+    RecommendCountSetRef.on('value', function (snapshot) {
+        var myCounterValue = snapshot.val();
+        $("#smileSymbol-left-"+counter).html("<span class='smile-symbol-left'>&#9786</span> Recommendation Total: " + myCounterValue);
+    })
+}
+
+function recommendSetterR(myUrlNoSpecialChar, counter) {
+    var RecommendCountSetRef = firebase.database().ref('rightArticles/' + myUrlNoSpecialChar + '/articleRecommendations');
+    RecommendCountSetRef.on('value', function (snapshot) {
+        var myCounterValue = snapshot.val();
+        $("#smileSymbol-right-"+counter).html("<span class='smile-symbol-right'>&#9786</span> Recommendation Total: " + myCounterValue);
+    });
+}
+
 $(document).on("click", "#run-search", function (e) {
     e.preventDefault()
     $(".politifact").empty()
+<<<<<<< HEAD
+=======
+    $(".recentPolitifact").empty()
+>>>>>>> 7c711e330511f69aa979883276e2551827d396ca
     $("#Left").empty()
     $("#Right").empty()
     searchTerm = $("#search-term").val()
@@ -10,14 +31,14 @@ $(document).on("click", "#run-search", function (e) {
     // Request for information from New York Times API
     function checkArticles(newArticle) {
         database.ref('leftArticles/' + urlNoSpecialChar).once('value').then(function (snapshot) {
-            console.log("snapshot.val(): " + snapshot.val())
-            console.log("snapshot.key: " + snapshot.key)
+            // console.log("snapshot.val(): " + snapshot.val())
+            // console.log("snapshot.key: " + snapshot.key)
             if (!snapshot.val()) {
-                console.log('here');
+                // console.log('here');
                 database.ref("leftArticles/" + snapshot.key).set(newArticle)
             } else {
 
-                console.log(searchTerm)
+                // console.log(searchTerm)
 
             }
         })
@@ -26,16 +47,16 @@ $(document).on("click", "#run-search", function (e) {
     //Putting the search term in firebase & checking if its already there
     function checkSearchTerm(newTerm) {
         database.ref('Terms/' + searchTerm).once('value').then(function (snapshot) {
-            console.log("snapshot.val(): " + snapshot.val())
-            console.log("snapshot.key: " + snapshot.key)
+            // console.log("snapshot.val(): " + snapshot.val())
+            // console.log("snapshot.key: " + snapshot.key)
             if (!snapshot.val()) {
-                console.log('here');
+                // console.log('here');
                 database.ref("Terms/" + snapshot.key).set({
                     politifact: 0
                 })
             } else {
 
-                console.log(searchTerm)
+                // console.log(searchTerm)
 
             }
         })
@@ -46,14 +67,14 @@ $(document).on("click", "#run-search", function (e) {
     // Request for information from Breitbart News API
     function checkArticles2(newArticle) {
         database.ref('rightArticles/' + urlNoSpecialChar).once('value').then(function (snapshot) {
-            console.log("snapshot.val(): " + snapshot.val())
-            console.log("snapshot.key: " + snapshot.key)
+            // console.log("snapshot.val(): " + snapshot.val())
+            // console.log("snapshot.key: " + snapshot.key)
             if (!snapshot.val()) {
-                console.log('here');
+                // console.log('here');
                 database.ref("rightArticles/" + snapshot.key).set(newArticle)
             } else {
 
-                console.log(searchTerm)
+                // console.log(searchTerm)
 
             }
         })
@@ -105,21 +126,39 @@ $(document).on("click", "#run-search", function (e) {
             // Getting the options
             selectSubject();
 
+            // Remove special characters
+            urlWithSpecialChar = results[i].url;
+            urlNoSpecialChar = urlWithSpecialChar.replace(/[^\w\s]/gi, '')
+            // console.log("urlNoSpecialChar " + urlNoSpecialChar);
+
+
             // Recommendation Checkmark
 
             var checkLabel = $("<label>");
             checkLabel.attr("class", "check-container");
             checkLabel.text("Would you recommend this article?");
             var checkInput = $("<input>");
-
-            checkInput.attr("class", "checkbox");
+            checkInput.addClass("checkbox left-side");
             checkInput.attr("type", "checkbox");
-            checkInput.attr("value", results[i].url);
-            checkInput.attr("id", "checkboxId_" + i);
+            checkInput.attr("value", urlNoSpecialChar);
+            checkInput.attr("id", "checkboxId_L_" + i);
             var checkSpan = $("<span>");
             checkSpan.attr("class", "checkmark");
             checkLabel.append(checkInput);
             checkLabel.append(checkSpan);
+
+            // Calling the function recommendSetter
+            recommendSetterL(urlNoSpecialChar, i);
+            
+            // Creating the Recommendation Label with symbol and total
+            var recTotalLabel = $("<label>");
+            recTotalLabel.attr("class", "recommend-container");
+            // recTotalLabel.text("Recommendation Total: " + recommendCounter);
+            var recTotalSpan = $("<span>");
+            recTotalSpan.attr("id", "smileSymbol-left-"+ i);
+            recTotalSpan.html("&#9786");
+            recTotalLabel.prepend(recTotalSpan);
+
 
             // Append the results data to the resultsDisplay
             resultDisplay.append(resultTitle)
@@ -130,12 +169,9 @@ $(document).on("click", "#run-search", function (e) {
             resultDisplay.append(resultLink)
             resultDisplay.append(subjectDiv)
             resultDisplay.append(checkLabel)
+            resultDisplay.append(recTotalLabel)
             $("#Left").append(resultDisplay)
 
-            // Remove special characters
-            urlWithSpecialChar = results[i].url;
-            urlNoSpecialChar = urlWithSpecialChar.replace(/[^\w\s]/gi, '')
-            // console.log("urlNoSpecialChar " + urlNoSpecialChar);
 
 
             var newArticle = {
@@ -165,7 +201,7 @@ $(document).on("click", "#run-search", function (e) {
     }).then(function (response) {
 
         var results = response.articles
-        console.log(results)
+        // console.log(results)
         for (var i = 0; i < results.length; i++) {
             // After response from API build card for each news article
             var resultDisplay = $("<div>")
@@ -203,6 +239,11 @@ $(document).on("click", "#run-search", function (e) {
             // Getting the options
             selectSubject();
 
+            // Remove special characters
+            urlWithSpecialChar = results[i].url;
+            urlNoSpecialChar = urlWithSpecialChar.replace(/[^\w\s]/gi, '')
+            // console.log("urlNoSpecialChar " + urlNoSpecialChar);
+
 
             // Recommendation Checkmark
 
@@ -210,14 +251,28 @@ $(document).on("click", "#run-search", function (e) {
             checkLabel.attr("class", "check-container");
             checkLabel.text("Would you recommend this article?");
             var checkInput = $("<input>");
-            checkInput.attr("class", "checkbox");
+            checkInput.addClass("checkbox right-side");
             checkInput.attr("type", "checkbox");
-            checkInput.attr("value", results[i].url);
-            checkInput.attr("id", "checkboxId_" + i);
+            checkInput.attr("value", urlNoSpecialChar);
+            checkInput.attr("id", "checkboxId_R_" + i);
             var checkSpan = $("<span>");
             checkSpan.attr("class", "checkmark");
             checkLabel.append(checkInput);
             checkLabel.append(checkSpan);
+
+            // Calling the function recommendSetter
+            recommendSetterR(urlNoSpecialChar, i);
+            // console.log("recommendCounter: " + recommendCounter);
+            // console.log("urlNoSpecialChar:" + urlNoSpecialChar);
+
+
+            // Creating the Recommendation Label with symbol and total
+            var recTotalLabel = $("<label>");
+            recTotalLabel.attr("class", "recommend-container");
+            var recTotalSpan = $("<span>");
+            recTotalSpan.attr("id", "smileSymbol-right-"+i);
+            recTotalSpan.html("&#9786");
+            recTotalLabel.prepend(recTotalSpan);
 
 
             // Append the results data to the resultsDisplay
@@ -229,12 +284,8 @@ $(document).on("click", "#run-search", function (e) {
             resultDisplay.append(resultLink)
             resultDisplay.append(subjectDiv)
             resultDisplay.append(checkLabel)
+            resultDisplay.append(recTotalLabel)
             $("#Right").append(resultDisplay)
-
-            // Remove special characters
-            urlWithSpecialChar = results[i].url;
-            urlNoSpecialChar = urlWithSpecialChar.replace(/[^\w\s]/gi, '')
-            // console.log("urlNoSpecialChar " + urlNoSpecialChar);
 
 
             var newArticle = {
@@ -258,14 +309,14 @@ $(document).on("click", "#run-search", function (e) {
         // Query of Politifact with user selected Most Relevant Subject ($("#subject").val())
 
         var queryPolitifact = "http://www.politifact.com/api/v/2/statement/?order_by=-ruling_date&edition__edition_slug=truth-o-meter&subject__subject_slug=" + $("#subject").val() + "&limit=" + $("#article-count").val()
-        console.log(queryPolitifact)
+        // console.log(queryPolitifact)
         $.ajax({
             url: queryPolitifact,
             method: "GET",
             dataType: "jsonp"
         }).then(function (response3) {
             // After response from API build results
-            console.log(response3)
+            // console.log(response3)
             var results = response3.objects
             for (var i = 0; i < results.length; i++) {
                 var politifactDiv = $("<div>")
@@ -294,7 +345,7 @@ $(document).on("click", "#run-search", function (e) {
 
 
         database.ref('Terms/' + searchTerm).once('value').then(function (snapshot99) {
-            console.log(snapshot99.val())
+            // console.log(snapshot99.val())
             var mostRecent = snapshot99.val()
             console.log(mostRecent)
             if (mostRecent.politifactSpeaker == undefined){

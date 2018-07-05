@@ -106,6 +106,22 @@
     margin-bottom: 60px;
   }
 
+#smileSymbol-left, .smile-symbol-left {
+  font-size: 40px;
+  color: blue;
+  
+}
+
+#smileSymbol-right, .smile-symbol-right {
+  font-size: 40px;
+  color: red;
+  
+}
+
+.recommend-container {
+  font-size: 20px;
+  margin: 0px;
+}
   body {
     background: linear-gradient(to right, blue , red);
 
