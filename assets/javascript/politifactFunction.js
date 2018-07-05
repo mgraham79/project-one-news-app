@@ -28,7 +28,7 @@ $(document).on("change", "#subject", function () {
         politifactHeadline.attr("href", "http://politifact.com/" + results[i].canonical_url)
         var relevantButton = $("<button>")
         relevantButton.attr('class', 'relevant')
-        relevantButton.text("Click If This Statement Is Relevant To Article")
+        relevantButton.text("Click If This Statement Is Relevant To Search Term")
   
         // Append the results data to the politifactDiv
         politifactDiv.append(politifactPerson)
