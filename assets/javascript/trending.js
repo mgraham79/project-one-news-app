@@ -3,43 +3,37 @@
 // Initialize Firebase
 // Make sure that your configuration matches your firebase script version
 // (Ex. 3.0 != 3.7.1)
-var config = {
-    apiKey: "AIzaSyBV13RnJqyB9cwgjbjsYn-8I5Nn9QitCk0",
-    authDomain: "trending-sample.firebaseapp.com",
-    databaseURL: "https://trending-sample.firebaseio.com",
-    projectId: "trending-sample",
-    storageBucket: "trending-sample.appspot.com",
-    messagingSenderId: "110559861463"
-};
-firebase.initializeApp(config);
-
-// Create a variable to reference the database
-var database = firebase.database();
-
-
 
 // database.ref("/").on("child_added").limitTo(5)
 
 // PART I
 
 // user can add a search term with a count to the database 
-$("#search-button").on("click", function (event) {
+$("#run-search").on("click", function (event) {
     event.preventDefault();
     // grab user input
     var searchTerms = $("#search-term").val().trim();
+
+    if (arrayOfTerms.includes(searchTerms)){
+       
+    }
+    else{
     database.ref("/trending").push({ term: searchTerms, dateAdded: firebase.database.ServerValue.TIMESTAMP });
-    // value = searchTerms;
+    }// value = searchTerms;
     // console.log(value);
     // alert("Added to firebase");
 });
 
-
+var arrayOfTerms= []
 database.ref("/trending").orderByChild("dateAdded").limitToLast(5).on("child_added", function (snapshot) {
     console.log(snapshot.val());
 
+arrayOfTerms.push(snapshot.val().term) 
+console.log(arrayOfTerms)
+
 
     // append recent searches to the page
-    $("#run-search").append("<li class='list-inline-item'>" + snapshot.val().term + "</li>" + " | ");
+    $("#latest-terms").append("<li class='list-inline-item'>" + snapshot.val().term + "</li>" + " | ");
 
 
 });
@@ -47,7 +41,12 @@ database.ref("/trending").orderByChild("dateAdded").limitToLast(5).on("child_add
 
 $(document).on("click", ".list-inline-item", function (e) {
     e.preventDefault()
+    $(".politifact").empty()
+    $(".recentPolitifact").empty()
+    $("#Left").empty()
+    $("#Right").empty()
     var searchTerm = $(this).text();
+    
     var buildURL = function () {
         queryURL = "https://newsapi.org/v2/everything?sources=the-new-york-times&";
         var queryParams = {
@@ -237,4 +236,8 @@ $.ajax({
         $("#Right").append(resultDisplay)
     }
 })
+
+
+
+
 })
