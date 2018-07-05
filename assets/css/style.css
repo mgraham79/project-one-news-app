@@ -176,3 +176,10 @@
   #Right{
     background-color: #ff002a;
   }
+  .list-inline-item{
+    color: blue;
+    text-decoration: underline;
+  }
+  .list-inline-item:hover{
+    text-decoration: none;
+  }
