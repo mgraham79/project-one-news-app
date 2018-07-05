@@ -20,7 +20,7 @@ var database = firebase.database()
 
 function selectSubject() {
   $.ajax({
-    url: "http://www.politifact.com/api/subjects/all/json/",
+    url: "https://www.politifact.com/api/subjects/all/json/",
     method: "GET",
     dataType: "jsonp"
   }).then(function (response) {
