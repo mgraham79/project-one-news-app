@@ -106,3 +106,19 @@
     margin-bottom: 60px;
   }
 
+#smileSymbol-left {
+  font-size: 40px;
+  color: blue;
+  
+}
+
+#smileSymbol-right {
+  font-size: 40px;
+  color: red;
+  
+}
+
+.recommend-container {
+  font-size: 20px;
+  margin: 0px;
+}
