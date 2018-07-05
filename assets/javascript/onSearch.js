@@ -17,6 +17,10 @@ function recommendSetterR(myUrlNoSpecialChar, counter) {
 
 $(document).on("click", "#run-search", function (e) {
     e.preventDefault()
+    $(".politifact").empty()
+    $(".recentPolitifact").empty()
+    $("#Left").empty()
+    $("#Right").empty()
     searchTerm = $("#search-term").val()
     var urlWithSpecialChar;
     var urlNoSpecialChar;
