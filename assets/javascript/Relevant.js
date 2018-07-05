@@ -17,8 +17,29 @@ $(document).on('click', '.relevant', function(){
     updates['/Terms/'+ searchTerm]=postData;
 
     return database.ref().update(updates);
-})
 
+
+
+})
+var searchTerm = $("#search-term").val()
+database.ref('/Terms').on("child_changed",function(snapshot){
+    console.log(searchTerm)
+    console.log(snapshot.val())
+    $('.recentPolitifact').show()
+    $('.recentPolitifact').append('<h5>' + snapshot.val().politifactSpeaker + '<h5>')
+    $('.recentPolitifact').append('<p>' + snapshot.val().politifactExplanation + '<p>')
+    var polImage = $('<img>')
+    polImage.attr('src', snapshot.val().politifactImage)
+    polImage.css('height', '100px')
+    $('.recentPolitifact').append(polImage)
+    $('.recentPolitifact').append('<p>' + snapshot.val().politifactText + '<p>')
+
+    if (snapshot.val().politifactSpeaker == undefined){
+        $('.recentPolitifact').hide()
+    }
+
+
+})
 // use an update instead of a set
 
     /*
