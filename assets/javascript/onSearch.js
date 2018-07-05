@@ -140,6 +140,13 @@ $(document).on("click", "#run-search", function (e) {
 
             // Calling the function recommendSetter
             var recommendCounter = recommendSetterL(urlNoSpecialChar);
+
+            //*******************************************************
+            // Setting the value of recommendCounter for Presentation
+            // Remove when getting all data from the database
+            recommendCounter = 1001;
+            //*******************************************************
+
             console.log("recommendCounter: " + recommendCounter);
             console.log("counterGlobal: :" + counterGlobal)
             console.log("urlNoSpecialChar:" + urlNoSpecialChar);
@@ -257,7 +264,15 @@ $(document).on("click", "#run-search", function (e) {
 
             // Calling the function recommendSetter
             var recommendCounter = recommendSetterR(urlNoSpecialChar);
+
+            //*******************************************************
+            // Setting the value of recommendCounter for Presentation
+            // Remove when getting all data from the database
+            recommendCounter = 1001;
+            //*******************************************************
+
             console.log("recommendCounter: " + recommendCounter);
+            console.log("counterGlobal: :" + counterGlobal)
             console.log("urlNoSpecialChar:" + urlNoSpecialChar);
 
 
