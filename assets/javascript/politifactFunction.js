@@ -20,6 +20,7 @@ $(document).on("change", "#subject", function () {
         politifactImage.attr("src", results[i].ruling.ruling_graphic)
         politifactImage.css("height", "100px")
         var politifactPerson = $("<h4>")
+        politifactPerson.css("padding-top", "10px")
         politifactPerson.text(results[i].speaker.first_name + " " + results[i].speaker.last_name)
         var politifactStatement = (results[i].statement)
         var politifactHeadline = $("<a>")
@@ -28,13 +29,14 @@ $(document).on("change", "#subject", function () {
         politifactHeadline.attr("href", "http://politifact.com/" + results[i].canonical_url)
         var relevantButton = $("<button>")
         relevantButton.attr('class', 'relevant')
-        relevantButton.text("Click If This Statement Is Relevant To Search Term")
+        relevantButton.text("Click If Above Statement Is Relevant To Search Term")
   
         // Append the results data to the politifactDiv
         politifactDiv.append(politifactPerson)
         politifactDiv.append(politifactStatement)
         politifactDiv.append(politifactImage)
         politifactDiv.append(politifactHeadline)
+        politifactDiv.append("<br>"+ "</br>")
         politifactDiv.append(relevantButton)
         $(".politifact").append(politifactDiv)
         
