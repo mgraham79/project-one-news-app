@@ -2,7 +2,7 @@
 $(document).on("change", "#subject", function () {
     console.log($(this).val())
     console.log($("#subject").val())
-    var queryPolitifact = "http://www.politifact.com/api/v/2/statement/?order_by=-ruling_date&edition__edition_slug=truth-o-meter&subject__subject_slug=" + $(this).val() + "&limit=" + $("#article-count").val()
+    var queryPolitifact = "https://www.politifact.com/api/v/2/statement/?order_by=-ruling_date&edition__edition_slug=truth-o-meter&subject__subject_slug=" + $(this).val() + "&limit=" + $("#article-count").val()
     console.log(queryPolitifact)
     $.ajax({
       url: queryPolitifact,
