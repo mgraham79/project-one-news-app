@@ -21,6 +21,7 @@
   <script src="assets/javascript/onSearch.js"></script>
   <script src="assets/javascript/politifactFunction.js"></script>
   <script src="assets/javascript/Relevant.js"></script>
+  <script src="assets/javascript/trending.js"></script>
 </head>
 
 <body>
@@ -29,10 +30,10 @@
   <div class="container">
 
     <!-- Jumbotron for Title -->
-    <div class="jumbotron" id="header" style="color: white;">
+    <div class="jumbotron" id="header">
       <h1 class="text-center">
         <strong>
-          <i class="fa fa-newspaper-o"></i> News Views</strong>
+          <!--<i class="fa fa-newspaper-o"></i>-->NEWS VIEWS</strong>
       </h1>
     </div>
 
@@ -50,42 +51,61 @@
 
             <!-- Here we create an HTML Form for handling the inputs-->
             <form role="form">
-
-              <!-- Here we create the text box for capturing the search term-->
-              <div class="form-group">
-                <label for="search">Search Term:</label>
-                <input type="text" class="form-control" id="search-term" required>
+              <div class="row">
+                <div class="col-sm-6">
+                  <!-- Here we create the text box for capturing the search term-->
+                  <div class="form-group">
+                    <label for="search">Search Term:</label>
+                    <input type="text" class="form-control" id="search-term" required>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <!-- Here we capture the number of records that the user wants to retrieve  -->
+                  <div class="form-group">
+                    <label for="pwd">Number of Records to Retrieve:</label>
+                    <select id="article-count" class="custom-select" aria-labelledby="dropdownMenuButton">
+                      <option selected value="1">1</option>
+                      <!-- Setting the option for 5 as default -->
+                      <option value="5" selected>5</option>
+                      <option value="10">10</option>
+                    </select>
+                  </div>
+                </div>
               </div>
-
-              <!-- Here we capture the number of records that the user wants to retrieve  -->
-              <div class="form-group">
-                <label for="pwd">Number of Records to Retrieve:</label>
-                <select id="article-count" class="custom-select" aria-labelledby="dropdownMenuButton">
-                  <option selected value="1">1</option>
-                  <!-- Setting the option for 5 as default -->
-                  <option value="5" selected>5</option>
-                  <option value="10">10</option>
-                </select>
+              <div class="row">
+                <div class="col-sm-6">
+                  <!-- Here we capture the Start Year Parameter-->
+                  <div class="form-group">
+                    <label for="start-year">Start Year (Optional):</label>
+                    <input type="text" class="form-control" id="start-year">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <!-- Here we capture the End Year Parameter -->
+                  <div class="form-group">
+                    <label for="end-year">End Year (Optional):</label>
+                    <input type="text" class="form-control" id="end-year">
+                  </div>
+                </div>
               </div>
-
-              <!-- Here we capture the Start Year Parameter-->
-              <div class="form-group">
-                <label for="start-year">Start Year (Optional):</label>
-                <input type="text" class="form-control" id="start-year">
-              </div>
-
-              <!-- Here we capture the End Year Parameter -->
-              <div class="form-group">
-                <label for="end-year">End Year (Optional):</label>
-                <input type="text" class="form-control" id="end-year">
-              </div>
-
               <!-- Here we have our final submit button -->
               <button type="submit" class="btn btn-default" id="run-search">
                 <i class="fa fa-search"></i> Search</button>
               <button class="btn btn-default" id="clear-all">
                 <i class="fa fa-trash"></i> Clear Results</button>
-
+              
+              
+              <!--Start Latest Searches-->
+                <div class="row">&nbsp;
+                <br>
+                <div class="col-sm-12" id="search-div">
+                  <div>
+                    <strong>Latest Searches</strong>
+                  </div>
+                  <!-- SEARCH TERMS POPULATE HERE-->
+                  <div id="run-search"></div>
+                </div>
+              </div>
             </form>
           </div>
         </div>
@@ -131,37 +151,37 @@
       </div>
     </div>
 
-    
+
     <div class="row">
-        <div class="col-sm-12">
-  
-          <!-- Line Break followed by closing -->
-          <hr>
-          
-  
-        </div>
+      <div class="col-sm-12">
+
+        <!-- Line Break followed by closing -->
+        <hr>
+
+
       </div>
+    </div>
   </div>
   <div class="container margin-bottom">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="pol">
-      <img src="assets/images/POLITIFACT_logo_rgb141x25.png" alt="Politifact Logo">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="pol">
+          <img src="assets/images/POLITIFACT_logo_rgb141x25.png" alt="Politifact Logo">
 
-      <h5 class="recentPolitifact">Most Recent Related to Search Term</h5>
+          <h5 class="recentPolitifact">Most Recent Related to Search Term</h5>
 
-      <h5>Most Recent By Article</h5>
-        <div class="politifact">
+          <h5>Most Recent By Article</h5>
+          <div class="politifact">
+
+          </div>
+
 
         </div>
-
+      </div>
 
     </div>
   </div>
-
-  </div>
-</div>
-<footer class="footer">
+  <footer class="footer">
     <div class="container">
       <span class="text-muted">Powered By NewsAPI & Politifact API</span>
     </div>
