@@ -112,10 +112,27 @@
     margin-bottom: 60px;
   }
 
-  /*body {
+
+#smileSymbol-left, .smile-symbol-left {
+  font-size: 40px;
+  color: blue;
+  
+}
+
+#smileSymbol-right, .smile-symbol-right {
+  font-size: 40px;
+  color: red;
+  
+}
+
+.recommend-container {
+  font-size: 20px;
+  margin: 0px;
+}
+  body {
     background: linear-gradient(to right, blue , red);
 
-  }*/
+  }
 
   body{
     background-image: url("../images/political-background-6.jpg");
@@ -150,6 +167,7 @@
     background-color: white;
     opacity: .6;
   }
+
   
   #Left{
     background-color: #0000ff;
