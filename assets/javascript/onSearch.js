@@ -1,37 +1,18 @@
-
 var counterGlobal;
-function recommendSetterL(myUrlNoSpecialChar, callback) {
+function recommendSetterL(myUrlNoSpecialChar, counter) {
     var RecommendCountSetRef = firebase.database().ref('leftArticles/' + myUrlNoSpecialChar + '/articleRecommendations');
-    // RecommendCountSetRef.once("value").then(function (snapshot) {
-    //     counter.text(snapshot.val())
-    // })
     RecommendCountSetRef.on('value', function (snapshot) {
-        // counter.html("<span>" + snapshot.val() + "</span>")
-        console.log("Counter text", snapshot.val());
         var myCounterValue = snapshot.val();
-        counterGlobal = snapshot.val();
-        console.log("myCounterValue", myCounterValue);
-        return myCounterValue;
-
-        //    counter.text(myCounterValue);
+        $("#smileSymbol-left-"+counter).html("<span class='smile-symbol-left'>&#9786</span> Recommendation Total: " + myCounterValue);
     })
 }
 
-function recommendSetterR(myUrlNoSpecialChar) {
+function recommendSetterR(myUrlNoSpecialChar, counter) {
     var RecommendCountSetRef = firebase.database().ref('rightArticles/' + myUrlNoSpecialChar + '/articleRecommendations');
-    // RecommendCountSetRef.once("value").then(function (snapshot) {
-    //     counter.text(snapshot.val())
-    // })
     RecommendCountSetRef.on('value', function (snapshot) {
-        // counter.html("<span>" + snapshot.val() + "</span>")
-        console.log("Counter text", snapshot.val());
         var myCounterValue = snapshot.val();
-        console.log("myCounterValue", myCounterValue);
-        return myCounterValue;
-
-
-        //    counter.text(myCounterValue);
-    })
+        $("#smileSymbol-right-"+counter).html("<span class='smile-symbol-right'>&#9786</span> Recommendation Total: " + myCounterValue);
+    });
 }
 
 $(document).on("click", "#run-search", function (e) {
@@ -43,14 +24,14 @@ $(document).on("click", "#run-search", function (e) {
     // Request for information from New York Times API
     function checkArticles(newArticle) {
         database.ref('leftArticles/' + urlNoSpecialChar).once('value').then(function (snapshot) {
-            console.log("snapshot.val(): " + snapshot.val())
-            console.log("snapshot.key: " + snapshot.key)
+            // console.log("snapshot.val(): " + snapshot.val())
+            // console.log("snapshot.key: " + snapshot.key)
             if (!snapshot.val()) {
-                console.log('here');
+                // console.log('here');
                 database.ref("leftArticles/" + snapshot.key).set(newArticle)
             } else {
 
-                console.log(searchTerm)
+                // console.log(searchTerm)
 
             }
         })
@@ -59,16 +40,16 @@ $(document).on("click", "#run-search", function (e) {
     //Putting the search term in firebase & checking if its already there
     function checkSearchTerm(newTerm) {
         database.ref('Terms/' + searchTerm).once('value').then(function (snapshot) {
-            console.log("snapshot.val(): " + snapshot.val())
-            console.log("snapshot.key: " + snapshot.key)
+            // console.log("snapshot.val(): " + snapshot.val())
+            // console.log("snapshot.key: " + snapshot.key)
             if (!snapshot.val()) {
-                console.log('here');
+                // console.log('here');
                 database.ref("Terms/" + snapshot.key).set({
                     politifact: 0
                 })
             } else {
 
-                console.log(searchTerm)
+                // console.log(searchTerm)
 
             }
         })
@@ -79,14 +60,14 @@ $(document).on("click", "#run-search", function (e) {
     // Request for information from Breitbart News API
     function checkArticles2(newArticle) {
         database.ref('rightArticles/' + urlNoSpecialChar).once('value').then(function (snapshot) {
-            console.log("snapshot.val(): " + snapshot.val())
-            console.log("snapshot.key: " + snapshot.key)
+            // console.log("snapshot.val(): " + snapshot.val())
+            // console.log("snapshot.key: " + snapshot.key)
             if (!snapshot.val()) {
-                console.log('here');
+                // console.log('here');
                 database.ref("rightArticles/" + snapshot.key).set(newArticle)
             } else {
 
-                console.log(searchTerm)
+                // console.log(searchTerm)
 
             }
         })
@@ -160,18 +141,14 @@ $(document).on("click", "#run-search", function (e) {
             checkLabel.append(checkSpan);
 
             // Calling the function recommendSetter
-            var recommendCounter = recommendSetterL(urlNoSpecialChar);
-            console.log("recommendCounter: " + recommendCounter);
-            console.log("counterGlobal: :" + counterGlobal)
-            console.log("urlNoSpecialChar:" + urlNoSpecialChar);
-
-
+            recommendSetterL(urlNoSpecialChar, i);
+            
             // Creating the Recommendation Label with symbol and total
             var recTotalLabel = $("<label>");
             recTotalLabel.attr("class", "recommend-container");
-            recTotalLabel.text("Recommendation Total: " + recommendCounter);
+            // recTotalLabel.text("Recommendation Total: " + recommendCounter);
             var recTotalSpan = $("<span>");
-            recTotalSpan.attr("id", "smileSymbol-left");
+            recTotalSpan.attr("id", "smileSymbol-left-"+ i);
             recTotalSpan.html("&#9786");
             recTotalLabel.prepend(recTotalSpan);
 
@@ -217,7 +194,7 @@ $(document).on("click", "#run-search", function (e) {
     }).then(function (response) {
 
         var results = response.articles
-        console.log(results)
+        // console.log(results)
         for (var i = 0; i < results.length; i++) {
             // After response from API build card for each news article
             var resultDisplay = $("<div>")
@@ -277,17 +254,16 @@ $(document).on("click", "#run-search", function (e) {
             checkLabel.append(checkSpan);
 
             // Calling the function recommendSetter
-            var recommendCounter = recommendSetterR(urlNoSpecialChar);
-            console.log("recommendCounter: " + recommendCounter);
-            console.log("urlNoSpecialChar:" + urlNoSpecialChar);
+            recommendSetterR(urlNoSpecialChar, i);
+            // console.log("recommendCounter: " + recommendCounter);
+            // console.log("urlNoSpecialChar:" + urlNoSpecialChar);
 
 
             // Creating the Recommendation Label with symbol and total
             var recTotalLabel = $("<label>");
             recTotalLabel.attr("class", "recommend-container");
-            recTotalLabel.text("Recommendation Total: " + recommendCounter);
             var recTotalSpan = $("<span>");
-            recTotalSpan.attr("id", "smileSymbol-right");
+            recTotalSpan.attr("id", "smileSymbol-right-"+i);
             recTotalSpan.html("&#9786");
             recTotalLabel.prepend(recTotalSpan);
 
@@ -326,14 +302,14 @@ $(document).on("click", "#run-search", function (e) {
         // Query of Politifact with user selected Most Relevant Subject ($("#subject").val())
 
         var queryPolitifact = "http://www.politifact.com/api/v/2/statement/?order_by=-ruling_date&edition__edition_slug=truth-o-meter&subject__subject_slug=" + $("#subject").val() + "&limit=" + $("#article-count").val()
-        console.log(queryPolitifact)
+        // console.log(queryPolitifact)
         $.ajax({
             url: queryPolitifact,
             method: "GET",
             dataType: "jsonp"
         }).then(function (response3) {
             // After response from API build results
-            console.log(response3)
+            // console.log(response3)
             var results = response3.objects
             for (var i = 0; i < results.length; i++) {
                 var politifactDiv = $("<div>")
@@ -362,9 +338,9 @@ $(document).on("click", "#run-search", function (e) {
 
 
         database.ref('Terms/' + searchTerm).once('value').then(function (snapshot99) {
-            console.log(snapshot99.val())
+            // console.log(snapshot99.val())
             var mostRecent = snapshot99.val()
-            console.log(mostRecent)
+            // console.log(mostRecent)
             $('.recentPolitifact').show()
                 $('.recentPolitifact').append('<h5>' + mostRecent.politifactSpeaker + '<h5>')
                 $('.recentPolitifact').append('<p>' + mostRecent.politifactExplanation + '<p>')

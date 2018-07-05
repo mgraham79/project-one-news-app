@@ -106,13 +106,13 @@
     margin-bottom: 60px;
   }
 
-#smileSymbol-left {
+#smileSymbol-left, .smile-symbol-left {
   font-size: 40px;
   color: blue;
   
 }
 
-#smileSymbol-right {
+#smileSymbol-right, .smile-symbol-right {
   font-size: 40px;
   color: red;
   
