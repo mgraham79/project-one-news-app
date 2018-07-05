@@ -18,10 +18,7 @@ function recommendSetterR(myUrlNoSpecialChar, counter) {
 $(document).on("click", "#run-search", function (e) {
     e.preventDefault()
     $(".politifact").empty()
-<<<<<<< HEAD
-=======
     $(".recentPolitifact").empty()
->>>>>>> 7c711e330511f69aa979883276e2551827d396ca
     $("#Left").empty()
     $("#Right").empty()
     searchTerm = $("#search-term").val()
