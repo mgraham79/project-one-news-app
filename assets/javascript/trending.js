@@ -15,7 +15,7 @@ $("#run-search").on("click", function (event) {
     var searchTerms = $("#search-term").val().trim();
 
     if (arrayOfTerms.includes(searchTerms)){
-       
+       console.log('here')
     }
     else{
     database.ref("/trending").push({ term: searchTerms, dateAdded: firebase.database.ServerValue.TIMESTAMP });
