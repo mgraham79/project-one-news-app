@@ -8,7 +8,7 @@
 
   #header{
     background-image: url("../images/newspaper_bg.jpg");
-    opacity: 0.5;
+    opacity: 0.9;
     filter: alpha(opacity=50); /* For IE8 and earlier */
 
 
@@ -122,3 +122,29 @@
   font-size: 20px;
   margin: 0px;
 }
+  body {
+    background: linear-gradient(to right, blue , red);
+
+  }
+  .pol{
+    background-color: rgba(255, 255,255);
+    padding: 3%;
+    text-align: center;
+    border-radius: 10px 10px;
+  }
+  .pol img{
+    padding-bottom: 10px;
+  }
+
+  .h5{
+    padding-top: 20px;
+  }
+
+  .card{
+    background-color: rgba(255, 255,255);;
+  }
+  footer{
+    text-align: center;
+    background-color: white;
+    opacity: .6;
+  }

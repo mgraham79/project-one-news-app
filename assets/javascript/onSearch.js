@@ -340,7 +340,11 @@ $(document).on("click", "#run-search", function (e) {
         database.ref('Terms/' + searchTerm).once('value').then(function (snapshot99) {
             // console.log(snapshot99.val())
             var mostRecent = snapshot99.val()
-            // console.log(mostRecent)
+            console.log(mostRecent)
+            if (mostRecent.politifactSpeaker == undefined){
+                    $('.recentPolitifact').hide()
+                }
+            else{
             $('.recentPolitifact').show()
                 $('.recentPolitifact').append('<h5>' + mostRecent.politifactSpeaker + '<h5>')
                 $('.recentPolitifact').append('<p>' + mostRecent.politifactExplanation + '<p>')
@@ -349,10 +353,8 @@ $(document).on("click", "#run-search", function (e) {
                 polImage.css('height', '100px')
                 $('.recentPolitifact').append(polImage)
                 $('.recentPolitifact').append('<p>' + mostRecent.politifactText + '<p>')
-            
-                if (mostRecent.politifactSpeaker == undefined){
-                    $('.recentPolitifact').hide()
-                }
+            }
+                
 
 
         })
