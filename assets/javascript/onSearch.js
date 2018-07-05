@@ -294,19 +294,22 @@ $(document).on("click", "#run-search", function (e) {
             console.log(snapshot99.val())
             var mostRecent = snapshot99.val()
             console.log(mostRecent)
-            if (snapshot.val().politifactSpeaker == undefined) {
-                $('.recentPolitifact').hide()}
+            if (mostRecent.politifactSpeaker == undefined){
+                    $('.recentPolitifact').hide()
+                }
             else{
-                console.log('here')
-                $('.recentPolitifact').show()
-                $('.recentPolitifact').append('<h5>' + snapshot.val().politifactSpeaker + '<h5>')
-                $('.recentPolitifact').append('<p>' + snapshot.val().politifactExplanation + '<p>')
+            $('.recentPolitifact').show()
+                $('.recentPolitifact').append('<h5>' + mostRecent.politifactSpeaker + '<h5>')
+                $('.recentPolitifact').append('<p>' + mostRecent.politifactExplanation + '<p>')
                 var polImage = $('<img>')
-                polImage.attr('src', snapshot.val().politifactImage)
+                polImage.attr('src', mostRecent.politifactImage)
                 polImage.css('height', '100px')
                 $('.recentPolitifact').append(polImage)
-                $('.recentPolitifact').append('<p>' + snapshot.val().politifactText + '<p>')
+                $('.recentPolitifact').append('<p>' + mostRecent.politifactText + '<p>')
             }
+                
+
+
         })
     })
 
