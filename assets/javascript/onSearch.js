@@ -1,5 +1,8 @@
 $(document).on("click", "#run-search", function (e) {
     e.preventDefault()
+    $(".politifact").empty()
+    $("#Left").empty()
+    $("#Right").empty()
     searchTerm = $("#search-term").val()
     var urlWithSpecialChar;
     var urlNoSpecialChar;
