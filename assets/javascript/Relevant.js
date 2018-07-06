@@ -14,7 +14,7 @@ $(document).on('click', '.relevant', function () {
         politifactText: $(politifactSibs[3]).text()
     }
     var updates = {};
-    updates['/Terms/' + searchTerm] = postData;
+    updates['/Terms/' + (searchTerm || searchTerm2)] = postData;
 
     return database.ref().update(updates);
 
